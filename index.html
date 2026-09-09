@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derek Etzler — UX Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+
+  :root{
+    --paper:#f5f6f2;
+    --surface:#ffffff;
+    --ink:#14181a;
+    --ink-soft:#5c625f;
+    --line:#e1e4df;
+    --accent:#2f6f5e;
+    --accent-soft:#e3ede9;
+    --accent-ink:#ffffff;
+    --radius:2px;
+    --maxw:920px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0f1211;
+      --surface:#161a18;
+      --ink:#eef1ee;
+      --ink-soft:#98a29c;
+      --line:#262b28;
+      --accent:#7bd8b6;
+      --accent-soft:#1a2b25;
+      --accent-ink:#0f1211;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0f1211;
+    --surface:#161a18;
+    --ink:#eef1ee;
+    --ink-soft:#98a29c;
+    --line:#262b28;
+    --accent:#7bd8b6;
+    --accent-soft:#1a2b25;
+    --accent-ink:#0f1211;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Public Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%;display:block;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 24px;max-width:var(--maxw);margin:0 auto;
+  }
+  .logo{font-family:'Archivo',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.01em;color:var(--ink);}
+  .logo span{color:var(--accent);}
+  nav ul{list-style:none;display:flex;gap:30px;margin:0;padding:0;}
+  nav ul li a{color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;letter-spacing:.03em;text-transform:uppercase;}
+  nav ul li a:hover{color:var(--accent);text-decoration:none;}
+  .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+  .menu-btn span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;}
+  @media (max-width:640px){
+    .menu-btn{display:block;}
+    nav{
+      position:fixed;top:58px;left:0;right:0;
+      background:var(--surface);border-bottom:1px solid var(--line);
+      max-height:0;overflow:hidden;transition:max-height .25s ease;
+    }
+    nav.open{max-height:320px;}
+    nav ul{flex-direction:column;gap:0;padding:8px 24px 16px;}
+    nav ul li{border-top:1px solid var(--line);}
+    nav ul li a{display:block;padding:14px 0;}
+  }
+
+  section{padding:76px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  .eyebrow{
+    display:flex;align-items:baseline;gap:10px;
+    font-family:'IBM Plex Mono',monospace;
+    text-transform:uppercase;letter-spacing:.1em;font-size:12px;
+    font-weight:500;color:var(--accent);margin:0 0 14px;
+  }
+  .eyebrow .idx{color:var(--ink-soft);opacity:.7;}
+  h1,h2,h3{font-family:'Archivo',sans-serif;text-wrap:balance;}
+  h1{font-size:clamp(34px,5vw,50px);line-height:1.12;margin:0 0 18px;letter-spacing:-.015em;font-weight:800;}
+  h2{font-size:clamp(23px,3vw,29px);margin:0 0 8px;letter-spacing:-.01em;font-weight:700;}
+  .section-head{margin-bottom:44px;}
+  .lede{font-size:19px;color:var(--ink-soft);max-width:600px;margin:0 0 30px;}
+
+  .btn-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;padding:12px 22px;border-radius:var(--radius);
+    font-weight:600;font-size:14px;border:1px solid transparent;font-family:'Public Sans',sans-serif;
+  }
+  .btn:hover{text-decoration:none;}
+  .btn-primary{background:var(--accent);color:var(--accent-ink);}
+  .btn-primary:hover{opacity:.88;}
+  .btn-ghost{border-color:var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+  #hero{
+    padding-top:100px;position:relative;overflow:hidden;
+    background-image:radial-gradient(var(--line) 1px, transparent 1px);
+    background-size:22px 22px;
+    background-position:-11px -11px;
+  }
+  #hero::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:130px;z-index:0;
+    background:linear-gradient(180deg, transparent 0%, var(--paper) 85%);
+    pointer-events:none;
+  }
+  #hero .wrap{position:relative;z-index:1;}
+  .kicker-tag{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);
+    border:1px solid var(--line);background:var(--surface);
+    padding:5px 10px;border-radius:20px;margin-bottom:20px;
+  }
+  .kicker-tag b{color:var(--accent);font-weight:600;}
+
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;}
+  @media (max-width:720px){.about-grid{grid-template-columns:1fr;gap:32px;}}
+  .about-grid p{color:var(--ink-soft);margin:0 0 16px;}
+  .fact-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface);}
+  .fact-list li{display:flex;justify-content:space-between;gap:12px;padding:15px 16px;font-size:13.5px;border-top:1px solid var(--line);}
+  .fact-list li:first-child{border-top:none;}
+  .fact-list span:first-child{color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;padding-top:2px;}
+  .fact-list span:last-child{font-weight:600;text-align:right;}
+
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;}
+  .project-card{
+    border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--surface);overflow:hidden;display:flex;flex-direction:column;
+  }
+  .project-thumb{
+    aspect-ratio:16/10;position:relative;margin:14px;
+    border:1.5px dashed var(--line);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:11.5px;text-align:center;padding:16px;
+  }
+  .project-thumb .frame-label{
+    position:absolute;top:-11px;left:8px;background:var(--surface);
+    padding:0 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:.05em;
+  }
+  .project-thumb::before,.project-thumb::after{
+    content:"";position:absolute;width:8px;height:8px;border:1.5px solid var(--ink-soft);opacity:.55;
+  }
+  .project-thumb::before{top:-1.5px;left:-1.5px;border-right:none;border-bottom:none;}
+  .project-thumb::after{bottom:-1.5px;right:-1.5px;border-left:none;border-top:none;}
+  .project-body{padding:6px 20px 20px;flex:1;display:flex;flex-direction:column;}
+  .project-body h3{margin:0 0 6px;font-size:17px;font-weight:700;}
+  .project-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+  .project-body p{margin:0 0 16px;color:var(--ink-soft);font-size:14px;flex:1;}
+  .project-body .btn{align-self:flex-start;padding:9px 16px;}
+
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;}
+  .skills-grid h3{font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:0 0 14px;font-weight:500;}
+  .skills-grid ul{list-style:none;margin:0;padding:0;}
+  .skills-grid li{padding:9px 0;border-top:1px solid var(--line);font-size:15px;}
+  .skills-grid li:first-child{border-top:none;}
+
+  .resume-box{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;
+    border:1px solid var(--line);border-radius:var(--radius);padding:30px;background:var(--surface);
+  }
+  .resume-box .rname{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;}
+  .resume-box p{margin:4px 0 0;color:var(--ink-soft);font-size:14px;}
+
+  .contact-box{display:flex;flex-wrap:wrap;gap:16px;}
+  .contact-item{
+    border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;
+    background:var(--surface);min-width:200px;flex:1;
+  }
+  .contact-item .label{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:7px;}
+  .contact-item .value{font-size:15px;font-weight:600;}
+
+  footer{padding:34px 0;text-align:center;color:var(--ink-soft);font-size:12.5px;font-family:'IBM Plex Mono',monospace;}
+
+  .note{
+    font-size:12.5px;color:var(--ink-soft);background:var(--accent-soft);
+    border:1px solid var(--accent);border-radius:var(--radius);padding:12px 15px;margin-top:16px;
+  }
+  .note b{color:var(--ink);}
+
+  .featured-project{display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:center;margin-bottom:36px;}
+  @media (max-width:640px){.featured-project{grid-template-columns:1fr;}}
+  .featured-media{display:flex;justify-content:center;}
+  .featured-media img{width:100%;max-width:220px;border-radius:22px;border:1px solid var(--line);}
+  .featured-tagline{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);margin:2px 0 14px;}
+  .proto-embed{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--surface);margin-bottom:44px;}
+  .proto-embed iframe{width:100%;display:block;border:1px solid var(--line);}
+  .subgrid-label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;margin:0 0 18px;}
+
+  .case-full{margin-bottom:44px;}
+  .case-hero{width:100%;border-radius:var(--radius);border:1px solid var(--line);margin-bottom:24px;}
+  .case-full h3{margin:0 0 4px;font-size:22px;}
+  .case-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:24px 0 8px;}
+  .case-gallery figure{margin:0;}
+  .case-gallery img{border-radius:var(--radius);border:1px solid var(--line);}
+  .case-gallery figcaption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);margin-top:8px;text-align:center;}
+  .case-full .lede-block{color:var(--ink-soft);font-size:15px;margin:0 0 14px;}
+
+  .project-media{aspect-ratio:16/10;margin:14px;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);}
+  .project-media img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="nav">
+    <div class="logo">Derek <span>Etzler</span></div>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mainNav">
+    <ul class="wrap" style="padding-left:0;padding-right:0;">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#resume">Resume</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="hero">
+  <div class="wrap">
+    <span class="kicker-tag">Now finishing <b>BASc, User Experience</b> — Full Sail University</span>
+    <h1>I design digital products that are clear, usable, and easy to trust.</h1>
+    <p class="lede">Derek Etzler — UX designer with a foundation in graphic design and web development. Research-driven, mobile-first, built to hold up under real use.</p>
+    <div class="btn-row">
+      <a href="#work" class="btn btn-primary">View Work</a>
+      <a href="#resume" class="btn btn-ghost">Resume</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <p class="eyebrow"><span class="idx">01</span> About</p>
+      <h2>Background</h2>
+      <p>I came to UX through design, not around it. Before focusing on user experience, I built a foundation in web design and development and graphic design — so I think about a product's visual system and its underlying structure at the same time, not as separate hand-offs.</p>
+      <p>My approach stays close to the fundamentals: understand the problem, get to a testable version fast, and use real feedback to decide what changes next. I care about interfaces that hold up under real use — clear at a glance, forgiving of mistakes, and fast to learn.</p>
+      <p>I'm currently finishing my BASc in User Experience at Full Sail University, building on an Associate's in Graphic Design and an Associate's in Web Design and Development from the same program.</p>
+      <p>Before UX, I spent 11+ years as a firefighter and lieutenant with the U.S. Department of Defense and U.S. Air Force, leading crews of three or more through high-stakes, time-critical operations across five installations — including a multi-day wildland fire response and aircraft crash-rescue work. I'm also a certified Fire Instructor, so training people to execute complex procedure clearly and without wasted steps is second nature — the same instinct that shows up in how I think about onboarding flows and error states in an interface.</p>
+    </div>
+    <ul class="fact-list">
+      <li><span>Focus</span><span>UX / Product Design</span></li>
+      <li><span>Education</span><span>BASc, User Experience<br>Full Sail University</span></li>
+      <li><span>Also studied</span><span>Graphic Design,<br>Web Design &amp; Dev</span></li>
+      <li><span>Background</span><span>Firefighter / Lieutenant<br>DoD &amp; USAF, 11+ yrs</span></li>
+      <li><span>Tools</span><span>Adobe Creative Cloud</span></li>
+      <li><span>Based in</span><span>Missouri, USA</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow"><span class="idx">02</span> Selected Work</p>
+      <h2>Case Studies</h2>
+    </div>
+    <div class="featured-project">
+      <div class="featured-media">
+        <img src="ocean-app-splash.jpg" alt="Ocean-Friendly Choices app splash screen">
+      </div>
+      <div>
+        <div class="project-tag">UX Case Study — App Concept</div>
+        <h3 style="margin:0 0 4px;font-size:22px;">Ocean-Friendly Choices</h3>
+        <p class="featured-tagline">Sustainable seafood, cleaner coasts.</p>
+        <p style="color:var(--ink-soft);font-size:15px;margin:0 0 20px;">A mobile app concept designed to help everyday shoppers make sustainable seafood choices before they buy — supporting cleaner coasts and healthier ocean ecosystems. Designed and prototyped in Figma as a UX case study.</p>
+        <div class="btn-row">
+          <a href="#ocean-proto" class="btn btn-primary">Launch Prototype ↓</a>
+          <a href="https://www.figma.com/design/CIcAIarwM2rec9cmAdpkJA/Derek_Etzler_OceanPrototype" target="_blank" rel="noopener" class="btn btn-ghost">Open in Figma ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="proto-embed" id="ocean-proto">
+      <iframe width="100%" height="450" src="https://embed.figma.com/design/CIcAIarwM2rec9cmAdpkJA/Derek_Etzler_OceanPrototype?node-id=0-1&embed-host=share" allowfullscreen></iframe>
+      <p class="note" style="margin-top:14px;margin-bottom:0;">Interactive prototype — click through above. If it doesn't load here, use "Open in Figma" instead.</p>
+    </div>
+
+    <div class="case-full">
+      <img class="case-hero" src="egg-title.jpg" alt="Eternal Grove Guardians title screen">
+      <div class="project-tag">UX Case Study — Game Concept</div>
+      <h3>Eternal Grove Guardians</h3>
+      <p class="featured-tagline">An ARPG where you become the forest's last defender.</p>
+      <p class="lede-block">Eternal Grove Guardians is an action RPG concept set in a living, bioluminescent forest under siege by creeping corruption. Players awaken as a Forest Guardian, symbiotically bonded to the woods, fighting with vine-whip combos, spirit summons, and glowing elemental blasts.</p>
+      <p class="lede-block">The design work centered on two personas — a casual explorer seeking relaxing immersion, and a hardcore grinder chasing deep builds and theorycrafting — and shaped everything from onboarding to combat feedback. Competitive research into Genshin Impact, Path of Exile, and Diablo 4 informed a progressive-disclosure tutorial that introduces one mechanic at a time, and a full UI built directly from the project's mood board: vine-wrapped action bars, bioluminescent highlights, and contextual prompts that keep the interface feeling like part of the living world rather than an overlay on top of it.</p>
+      <div class="btn-row" style="margin-bottom:24px;">
+        <a href="#grove-proto" class="btn btn-primary">Launch Prototype ↓</a>
+        <a href="https://www.figma.com/design/7AS75eadmJzrGohVCGseYw/Etzler_Derek_ClickablePrototype" target="_blank" rel="noopener" class="btn btn-ghost">Open in Figma ↗</a>
+      </div>
+      <div class="proto-embed" id="grove-proto">
+        <iframe width="100%" height="450" src="https://embed.figma.com/design/7AS75eadmJzrGohVCGseYw/Etzler_Derek_ClickablePrototype?node-id=0-1&embed-host=share" allowfullscreen></iframe>
+        <p class="note" style="margin-top:14px;margin-bottom:0;">Interactive prototype — click through above. If it doesn't load here, use "Open in Figma" instead.</p>
+      </div>
+      <div class="case-gallery">
+        <figure>
+          <img src="egg-ui.jpg" alt="Eternal Grove Guardians main view, map, and inventory UI">
+          <figcaption>Main view · map · inventory</figcaption>
+        </figure>
+        <figure>
+          <img src="egg-character.jpg" alt="Forest Guardian character concept art">
+          <figcaption>Forest Guardian — character concept</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="case-full">
+      <img class="case-hero" src="kroger-home.jpg" alt="Kroger app home and browse screen concept">
+      <div class="project-tag">UX Case Study — App Concept</div>
+      <h3>Kroger AR Shopping Mockups</h3>
+      <p class="featured-tagline">Point your camera, know before you buy.</p>
+      <p class="lede-block">A grocery shopping app concept for Kroger built around two augmented-reality features layered onto an everyday browse-and-shop flow: an AR "scan to identify" tool that reads a product on the shelf and surfaces its name, price, and current deals, and AR in-store navigation that overlays turn-by-turn directions and highlighted shelf markers on the camera view to guide a shopper straight to the right aisle.</p>
+      <p class="lede-block">The home and product screens establish the everyday shopping flow — browsing, deals, product detail — before the AR features layer on top of it, so the camera-based tools feel like an extension of a familiar grocery app rather than a separate gimmick.</p>
+      <div class="btn-row" style="margin-bottom:24px;">
+        <a href="#kroger-proto" class="btn btn-primary">Launch Prototype ↓</a>
+        <a href="https://www.figma.com/design/a3uy0P4as5arvHEGK5Njxq/Derek_Etzler_KrogerPrototype" target="_blank" rel="noopener" class="btn btn-ghost">Open in Figma ↗</a>
+        <a href="https://www.behance.net/gallery/239101929" target="_blank" rel="noopener" class="btn btn-ghost">View on Behance ↗</a>
+      </div>
+      <div class="proto-embed" id="kroger-proto">
+        <iframe width="100%" height="450" src="https://embed.figma.com/design/a3uy0P4as5arvHEGK5Njxq/Derek_Etzler_KrogerPrototype?node-id=0-1&embed-host=share" allowfullscreen></iframe>
+        <p class="note" style="margin-top:14px;margin-bottom:0;">Interactive prototype — click through above. If it doesn't load here, use "Open in Figma" or "View on Behance" instead.</p>
+      </div>
+      <div class="case-gallery">
+        <figure>
+          <img src="kroger-product.jpg" alt="Kroger product detail screen">
+          <figcaption>Product detail &amp; deals</figcaption>
+        </figure>
+        <figure>
+          <img src="kroger-scan.jpg" alt="AR scan-to-identify product feature">
+          <figcaption>AR scan-to-identify</figcaption>
+        </figure>
+        <figure>
+          <img src="kroger-navigate.jpg" alt="AR in-store navigation feature">
+          <figcaption>AR in-store navigation</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="case-full">
+      <img class="case-hero" src="keepgoing-registration.jpg" alt="Keep Going First Aid CPR class registration screen">
+      <div class="project-tag">UX Case Study — Client Project</div>
+      <h3>Keep Going First Aid</h3>
+      <p class="featured-tagline">A CPR training business, three roles, one platform.</p>
+      <p class="lede-block">Keep Going First Aid is a real client project for a CPR and first-aid training business: a web platform covering class registration and three distinct role-based dashboards designed to serve very different day-to-day needs from one system. Students track homework, unit progress, and upcoming activities; instructors manage class rosters, course documents, and their own schedule; owners get a revenue chart and a view of incoming reviews.</p>
+      <p class="lede-block">The core challenge was designing one coherent visual language that could flex across those three roles without feeling like three separate products bolted together, while keeping the registration flow itself simple enough for a first-time visitor signing up for a class.</p>
+      <div class="case-gallery">
+        <figure>
+          <img src="keepgoing-instructor.jpg" alt="Instructor dashboard with class roster and documents">
+          <figcaption>Instructor — roster &amp; documents</figcaption>
+        </figure>
+        <figure>
+          <img src="keepgoing-owner.jpg" alt="Owner dashboard with revenue chart and reviews">
+          <figcaption>Owner — revenue &amp; reviews</figcaption>
+        </figure>
+        <figure>
+          <img src="keepgoing-student.jpg" alt="Student dashboard with homework and unit progress">
+          <figcaption>Student — homework &amp; progress</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <p class="subgrid-label">More case studies</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-media"><img src="chewy-mockups.jpg" alt="Chewy's Cookies responsive e-commerce mockups across web, iPad, and iPhone"></div>
+        <div class="project-body">
+          <div class="project-tag">Responsive UI — Coursework</div>
+          <h3>Chewy's Cookies</h3>
+          <p>A cookie bakery e-commerce concept designed responsively across web, iPad, and iPhone, with a written retrospective on what worked and what I'd add next — a cart, a custom box builder, and holiday specials.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-media"><img src="elysium-landing.jpg" alt="Elysium Daydream dream-world generator landing screen"></div>
+        <div class="project-body">
+          <div class="project-tag">App Concept — Multisensory Wellness</div>
+          <h3>Elysium Daydream</h3>
+          <p>A concept for a multisensory relaxation app that generates a personal dream world from a short prompt, then lets you step into it — explored through login, generator, and landing-screen flows.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-media"><img src="vr-concert.jpg" alt="Spotify Live VR concert concept"></div>
+        <div class="project-body">
+          <div class="project-tag">Concept — VR Experience</div>
+          <h3>Spotify Live</h3>
+          <p>An early concept exploring what it could feel like to attend a concert in VR through Spotify — reimagining a familiar music app as a shared, live, spatial experience.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-media"><img src="nature-trail.jpg" alt="Nature photograph of a gravel trail through the trees"></div>
+        <div class="project-body">
+          <div class="project-tag">Photography</div>
+          <h3>Nature Photography</h3>
+          <p>A quiet trail photograph, edited and presented with a short artist's statement — a reminder that the visual instincts behind the UX work started with a camera.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-media"><img src="alien-cards.jpg" alt="Alien-themed playing card designs"></div>
+        <div class="project-body">
+          <div class="project-tag">Graphic Design</div>
+          <h3>Alien Playing Cards</h3>
+          <p>A custom playing card back and face design built around an alien theme — a graphic design exercise in keeping one visual system legible across a full 52-card deck.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow"><span class="idx">03</span> Skills</p>
+      <h2>What I work with</h2>
+    </div>
+    <div class="skills-grid">
+      <div>
+        <h3>UX / Product</h3>
+        <ul>
+          <li>User research</li>
+          <li>Wireframing &amp; prototyping</li>
+          <li>Usability testing</li>
+          <li>Information architecture</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Visual / Graphic Design</h3>
+        <ul>
+          <li>Adobe Photoshop</li>
+          <li>Adobe Illustrator</li>
+          <li>Image editing</li>
+          <li>Graphic design systems</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Web &amp; Motion</h3>
+        <ul>
+          <li>Web design &amp; development</li>
+          <li>Adobe Premiere Pro</li>
+          <li>Adobe After Effects</li>
+          <li>Adobe Creative Cloud suite</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="resume">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow"><span class="idx">04</span> Resume</p>
+      <h2>Get the full picture</h2>
+    </div>
+    <div class="resume-box">
+      <div>
+        <div class="rname">Derek Etzler — Resume</div>
+        <p>Education, skills, and experience in one page.</p>
+      </div>
+      <div class="btn-row">
+        <a href="resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost">View Resume</a>
+        <a href="resume.pdf" download class="btn btn-primary">Download PDF</a>
+      </div>
+    </div>
+    <p class="note">This links to <span class="mono">resume.pdf</span> in the same folder as this page. Swap in an updated file (same filename) any time you revise it.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow"><span class="idx">05</span> Contact</p>
+      <h2>Let's talk</h2>
+    </div>
+    <div class="contact-box">
+      <div class="contact-item">
+        <div class="label">Email</div>
+        <div class="value"><a href="mailto:detzler23@gmail.com">detzler23@gmail.com</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="label">LinkedIn</div>
+        <div class="value"><a href="https://www.linkedin.com/in/derek-etzler-779b89b9" target="_blank" rel="noopener">linkedin.com/in/derek-etzler</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="label">Location</div>
+        <div class="value">Missouri, USA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> DEREK ETZLER — BUILT WITH HTML, CSS &amp; JS — NO FRAMEWORK, NO SUBSCRIPTION</div>
+</footer>
+
+<script>
+  var menuBtn = document.getElementById('menuBtn');
+  var mainNav = document.getElementById('mainNav');
+  menuBtn.addEventListener('click', function(){
+    var open = mainNav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mainNav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mainNav.classList.remove('open'); });
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
